@@ -39,10 +39,6 @@ class VerseBl @Autowired constructor(private val verseRepository: VerseRepositor
             LOGGER.error("El capitulo no puede ser mayor a 150")
             throw IllegalArgumentException("El versiculo no puede ser mayor a 150")
         }
-        if (book.length > 3) {
-            LOGGER.error("El nombre del libro no puede ser mayor a 3 caracteres")
-            throw IllegalArgumentException("El nombre del libro no puede ser mayor a 3 caracteres")
-        }
 
         if (verseNr.toInt() < 1) {
             LOGGER.error("El versiculo no puede ser menor a 1")
