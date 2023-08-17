@@ -26,4 +26,24 @@ class BibleApi @Autowired constructor(private val verseBl: VerseBl) {
         return result!!
     }
 
+    @GetMapping("/request")
+    fun request(): List<Verse> {
+        LOGGER.info("Iniciando peticion para obtener todas las solicitudes")
+        val result = verseBl.getAllRequests()
+        return result!!
+    }
+
+    @DeleteMapping("/request")
+    fun deleteRequest(@RequestParam id: Long): String {
+        LOGGER.info("Iniciando peticion para eliminar la solicitud con id: $id")
+        val result = verseBl.deleteRequest(id)
+        return result!!
+    }
+
+    @PutMapping("/request")
+    fun updateRequest(@RequestParam id: Long, book: String, chapter: String, verse: String): ResponseServiceDto {
+        LOGGER.info("Iniciando peticion para actualizar la solicitud con id: $id")
+        val result = verseBl.updateRequest(id, book, chapter, verse)
+        return result!!
+    }
 }

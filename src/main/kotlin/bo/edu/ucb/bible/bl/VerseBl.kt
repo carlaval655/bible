@@ -90,4 +90,44 @@ class VerseBl @Autowired constructor(private val verseRepository: VerseRepositor
         throw ServiceException("Error en el servicio de obtencion de versiculos")
     }
 
+    fun getAllRequests(): List<Verse> {
+        LOGGER.info("Iniciando logica para obtener todas las solicitudes")
+        val verses = verseRepository.findAll()
+
+        return verses;
+    }
+
+    fun deleteRequest(id: Long): String {
+        LOGGER.info("Iniciando logica para eliminar la solicitud con id: $id")
+        if (id < 1) {
+            LOGGER.error("El id no puede ser menor a 1")
+            throw IllegalArgumentException("El id no puede ser menor a 1")
+        }
+        if (verseRepository.findById(id).isEmpty) {
+            LOGGER.error("No se pudo eliminar la solicitud con id: $id")
+            throw ServiceException("No existe una solicitud con id: $id")
+        }
+        return "Solicitud eliminada correctamente"
+    }
+
+    fun updateRequest(id: Long, book: String, chapter: String, verseNr: String): ResponseServiceDto {
+        LOGGER.info("Iniciando logica para actualizar la solicitud con id: $id")
+        if (id < 1) {
+            LOGGER.error("El id no puede ser menor a 1")
+            throw IllegalArgumentException("El id no puede ser menor a 1")
+        }
+        if (verseRepository.findById(id).isEmpty) {
+            LOGGER.error("No se pudo actualizar la solicitud con id: $id")
+            throw ServiceException("No existe una solicitud con id: $id")
+        }
+        val verseToUpdate = verseRepository.findById(id).get()
+        val response = invokeApi("$apiUrl/$book $chapter:$verseNr")
+        val responseServiceDto = parseResponse(response)
+        verseToUpdate.book = book
+        verseToUpdate.chapter = chapter
+        verseToUpdate.verse = verseNr
+        verseToUpdate.text = responseServiceDto.text
+        verseRepository.save(verseToUpdate)
+        return responseServiceDto
+    }
 }
