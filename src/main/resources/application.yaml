@@ -2,7 +2,7 @@ api:
   url: "https://bible-api.com"
 
 server:
-  port: 8008
+  port: 8080
 
 spring:
   datasource:

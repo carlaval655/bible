@@ -5,8 +5,9 @@ FROM arm64v8/eclipse-temurin:17-jdk
 WORKDIR /app
 
 # Copiar el archivo JAR compilado a la imagen
-COPY target/*.jar app.jar
+COPY target/*.jar /app/backend.jar
 ENV DATABASE_URL "jdbc:postgresql://localhost:5432/bible_db"
+EXPOSE 8080
 
 # Comando para ejecutar la aplicación
 CMD ["java", "-jar", "/app/backend.jar"]
