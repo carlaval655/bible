@@ -29,7 +29,7 @@ class VerseBl @Autowired constructor(private val verseRepository: VerseRepositor
     @Value("\${api.url}")
     lateinit var apiUrl: String
 
-    fun getVerse(book: String, chapter: String, verseNr: String): ResponseServiceDto? {
+    fun getVerse(book: String, chapter: String, verseNr: String): Verse? {
         LOGGER.info("Iniciando logica para obtener el versiculo solicitado")
         if (verseNr.toInt() > 80) {
             LOGGER.error("El versiculo no puede ser mayor a 80")
@@ -57,8 +57,8 @@ class VerseBl @Autowired constructor(private val verseRepository: VerseRepositor
         verse.verse = verseNr!!
         verse.text = responseServiceDto.text!!
         verse.date = Date()
-        verseRepository.save(verse)
-        return responseServiceDto
+        val verseSaved = verseRepository.save(verse)
+        return verseSaved
     }
 
     fun invokeApi(endpoint: String): Response {
@@ -107,6 +107,7 @@ class VerseBl @Autowired constructor(private val verseRepository: VerseRepositor
             LOGGER.error("No se pudo eliminar la solicitud con id: $id")
             throw ServiceException("No existe una solicitud con id: $id")
         }
+        verseRepository.deleteById(id)
         return "Solicitud eliminada correctamente"
     }
 
@@ -129,5 +130,18 @@ class VerseBl @Autowired constructor(private val verseRepository: VerseRepositor
         verseToUpdate.text = responseServiceDto.text
         verseRepository.save(verseToUpdate)
         return responseServiceDto
+    }
+
+    fun getVerseById(id: Long): Verse {
+        LOGGER.info("Iniciando logica para obtener el versiculo solicitado")
+        if (id < 1) {
+            LOGGER.error("El id no puede ser menor a 1")
+            throw IllegalArgumentException("El id no puede ser menor a 1")
+        }
+        if (verseRepository.findById(id).isEmpty) {
+            LOGGER.error("No se pudo obtener el versiculo con id: $id")
+            throw ServiceException("No existe un versiculo con id: $id")
+        }
+        return verseRepository.findById(id).get()
     }
 }

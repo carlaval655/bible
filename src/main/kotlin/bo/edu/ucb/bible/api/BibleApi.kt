@@ -33,6 +33,13 @@ class BibleApi @Autowired constructor(private val verseBl: VerseBl) {
         return result!!
     }
 
+    @GetMapping("/request/id")
+    fun requestById(@RequestParam codigo: Long): Verse {
+        LOGGER.info("Iniciando peticion para obtener la solicitud con id: $codigo")
+        val result = verseBl.getVerseById(codigo)
+        return result!!
+    }
+
     @DeleteMapping("/request")
     fun deleteRequest(@RequestParam id: Long): String {
         LOGGER.info("Iniciando peticion para eliminar la solicitud con id: $id")
