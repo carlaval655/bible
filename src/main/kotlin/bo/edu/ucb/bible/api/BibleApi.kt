@@ -20,7 +20,7 @@ class BibleApi @Autowired constructor(private val verseBl: VerseBl) {
     @GetMapping("/verse")
     fun exchangeRate(@RequestParam book: String,
                      @RequestParam chapter: String,
-                     @RequestParam verse: String): ResponseServiceDto {
+                     @RequestParam verse: String): Verse {
         LOGGER.info("Iniciando peticion para obtener el siguiente versiculo: $book $chapter:$verse")
         val result = verseBl.getVerse(book, chapter, verse)
         return result!!

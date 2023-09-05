@@ -32,7 +32,7 @@ class VerseBl @Autowired constructor(private val verseRepository: VerseRepositor
     fun getVerse(book: String, chapter: String, verseNr: String): Verse? {
         LOGGER.info("Iniciando logica para obtener el versiculo solicitado")
         if (verseNr.toInt() > 80) {
-            LOGGER.error("El versiculo no puede ser mayor a 80")
+            LOGGER.error("El versiculo no puede ser menor a 80")
             throw IllegalArgumentException("El versiculo no puede ser mayor a 80")
         }
         if (chapter.toInt() > 150) {
