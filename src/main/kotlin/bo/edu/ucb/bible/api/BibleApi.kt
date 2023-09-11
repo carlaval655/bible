@@ -17,6 +17,7 @@ class BibleApi @Autowired constructor(private val verseBl: VerseBl) {
         private val LOGGER: Logger = LoggerFactory.getLogger(BibleApi::class.java)
     }
 
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping("/verse")
     fun exchangeRate(@RequestParam book: String,
                      @RequestParam chapter: String,
@@ -26,13 +27,14 @@ class BibleApi @Autowired constructor(private val verseBl: VerseBl) {
         return result!!
     }
 
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping("/request")
     fun request(): List<Verse> {
         LOGGER.info("Iniciando peticion para obtener todas las solicitudes")
         val result = verseBl.getAllRequests()
         return result!!
     }
-
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping("/request/id")
     fun requestById(@RequestParam codigo: Long): Verse {
         LOGGER.info("Iniciando peticion para obtener la solicitud con id: $codigo")
@@ -40,6 +42,7 @@ class BibleApi @Autowired constructor(private val verseBl: VerseBl) {
         return result!!
     }
 
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @DeleteMapping("/request")
     fun deleteRequest(@RequestParam id: Long): String {
         LOGGER.info("Iniciando peticion para eliminar la solicitud con id: $id")
@@ -47,6 +50,7 @@ class BibleApi @Autowired constructor(private val verseBl: VerseBl) {
         return result!!
     }
 
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @PutMapping("/request")
     fun updateRequest(@RequestParam id: Long, book: String, chapter: String, verse: String): ResponseServiceDto {
         LOGGER.info("Iniciando peticion para actualizar la solicitud con id: $id")
