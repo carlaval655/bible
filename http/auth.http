@@ -1,0 +1,20 @@
+### Obtener token client-credentials
+POST http://localhost:8080/realms/prueba_arquitectura/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+response_type=code&grant_type=client_credentials&client_id=backend&client_secret=SSvofrk1wDMPDON2XVjOZsF1JSbJ1aUA
+
+> {%
+    client.global.set("access_token", "Bearer " + response.body["access_token"]);
+    client.log(client.global.get("access_token"));
+%}
+
+### GET Versículo de la Biblia
+GET http://localhost:8008/api/v1/bible/verse?book=job&chapter=1&verse=7
+Content-Type: application/json
+#Authorization: {access_token}
+
+### GET Solicitudes de la Biblia
+GET http://localhost:8008/api/v1/bible/request?page=2&size=10
+Content-Type: application/json
+#Authorization: {access_token}

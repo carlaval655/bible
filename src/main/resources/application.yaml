@@ -4,6 +4,14 @@ api:
 server:
   port: 8008
 
+logging:
+  level:
+    org.springframework.web: DEBUG
+
+token:
+  converter:
+    principal-attribute: preferred_username
+    resource-id: backend
 spring:
   datasource:
     type: org.postgresql.jdbc2.optional.PoolingDataSource
@@ -18,3 +26,9 @@ spring:
     show-sql: true
   application:
     name: bible-api
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/prueba_arquitectura
+          jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
