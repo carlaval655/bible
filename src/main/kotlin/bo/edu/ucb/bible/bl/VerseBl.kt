@@ -13,6 +13,9 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.awt.print.Book
 import java.math.BigDecimal
@@ -90,11 +93,11 @@ class VerseBl @Autowired constructor(private val verseRepository: VerseRepositor
         throw ServiceException("Error en el servicio de obtencion de versiculos")
     }
 
-    fun getAllRequests(): List<Verse> {
+    fun getAllRequests(page: Int, size: Int): PageImpl<Verse> {
         LOGGER.info("Iniciando logica para obtener todas las solicitudes")
-        val verses = verseRepository.findAll()
+        val verses: Page<Verse> = verseRepository.findAll(PageRequest.of(page, size))
 
-        return verses;
+        return PageImpl(verses.toList(), verses.pageable, verses.totalElements)
     }
 
     fun deleteRequest(id: Long): String {

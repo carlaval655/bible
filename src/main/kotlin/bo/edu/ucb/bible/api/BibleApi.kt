@@ -7,6 +7,7 @@ import bo.edu.ucb.bible.dto.ResponseServiceDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageImpl
 import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/api/v1/bible")
@@ -29,9 +30,9 @@ class BibleApi @Autowired constructor(private val verseBl: VerseBl) {
 
     @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping("/request")
-    fun request(): List<Verse> {
+    fun request(@RequestParam page:Int, @RequestParam size:Int): PageImpl<Verse> {
         LOGGER.info("Iniciando peticion para obtener todas las solicitudes")
-        val result = verseBl.getAllRequests()
+        val result = verseBl.getAllRequests(page,size)
         return result!!
     }
     @CrossOrigin(origins = ["http://localhost:4200"])
