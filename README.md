@@ -10,3 +10,9 @@
     1. Ejecutar el comando: docker ps -a
 ## Para verificar que un puerto esta libre
     sudo lsof -i :5432 -n -P | grep LISTEN 
+
+## Para crear la imagen y el contenedor
+    1. Ejecutar el comando: docker build -t bible-backend:0.0.? .
+    2. docker run -v /Users/carlavalencia/opt/arquitectura/logs/bible:/logs/bible --name backend-bible1 -it -e DATABASE_URL="jdbc:postgresql://192.168.1.7:5432/bible_db" -p 8008:8008 -d backend-bible:0.0.1
+
+
